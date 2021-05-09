@@ -1,4 +1,4 @@
-#include "../templateArray.h"
+#include "../templateArray.hpp"
 #include <cassert>
 
 void testLeaks();
@@ -20,7 +20,7 @@ void testLeaks() {
 
 void testLength() {
     Array<int> *testArray = new Array<int>(10);
-    assert(testArray->getLength() == 10);
+    assert(testArray->length == 10);
 
     delete testArray;
 }

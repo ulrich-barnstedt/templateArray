@@ -9,12 +9,13 @@ template <class T> std::ostream& operator << (std::ostream &os, const Array<T> &
 
 template <class T> class Array {
 private:
-    int length{};
     T *array;
 public:
+    const int length;
+
     Array (int length);
     ~Array();
-    [[nodiscard]] int getLength() const;
+
     friend std::ostream& operator << <> (std::ostream &os, const Array<T> &array);
     T operator[] (int index) const;
     T& operator[] (int index);
@@ -32,13 +33,8 @@ template <class T> std::ostream& operator << (std::ostream &os, const Array<T> &
     return os;
 }
 
-template <class T> int Array<T>::getLength() const {
-    return length;
-}
-
-template <class T> Array<T>::Array(int length) {
-    this->length = length;
-    this->array = new T[length];
+template <class T> Array<T>::Array(int length) : length(length) {
+    array = new T[length];
 }
 
 template <class T> Array<T>::~Array() {
