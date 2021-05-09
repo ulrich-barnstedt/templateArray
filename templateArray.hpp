@@ -21,6 +21,14 @@ public:
     T& operator[] (int index);
 };
 
+template <class T> Array<T>::Array(int length) : length(length) {
+    array = new T[length];
+}
+
+template <class T> Array<T>::~Array() {
+    delete[] this->array;
+}
+
 template <class T> std::ostream& operator << (std::ostream &os, const Array<T> &array) {
     os << "[";
     for (int i = 0; i < array.length; i++) {
@@ -31,14 +39,6 @@ template <class T> std::ostream& operator << (std::ostream &os, const Array<T> &
     os << "]";
 
     return os;
-}
-
-template <class T> Array<T>::Array(int length) : length(length) {
-    array = new T[length];
-}
-
-template <class T> Array<T>::~Array() {
-    delete[] this->array;
 }
 
 template <class T> T Array<T>::operator[](int index) const {
