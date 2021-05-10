@@ -2,6 +2,7 @@
 #include <ostream>
 #include <cassert>
 #include <functional>
+#include <stdexcept>
 
 //The whole code is put in the header because template classes have to be forced to compile, or else will not resolve
 
@@ -34,10 +35,6 @@ public:
     void fill(const T& value);
     void fill(const std::function<T(int)> fillFn);
     Array<T> copy() const;
-
-    //Not yet fixed
-    //void sortSelf(const std::function<bool(const T&, const T&)> sortFn);
-    //Array<T> sort(const std::function<bool(const T&, const T&)> sortFn) const;
 };
 
 //------------ Constructor / Destructor
@@ -65,12 +62,12 @@ template <typename T> std::ostream& operator << (std::ostream &os, const Array<T
 }
 
 template <typename T> const T& Array<T>::operator[](int index) const {
-    if (validateIndex) assert(index < length && index > -1);
+    if (validateIndex && !(index < length && index > -1)) throw std::invalid_argument("Out of bounds with checking enabled.");
     return array[index];
 }
 
 template <typename T> T& Array<T>::operator[](int index) {
-    if (validateIndex) assert(index < length && index > -1);
+    if (validateIndex && !(index < length && index > -1)) throw std::invalid_argument("Out of bounds with checking enabled.");
     return array[index];
 }
 
@@ -173,14 +170,3 @@ template<typename T> Array<T> Array<T>::copy() const {
 
     return out;
 }
-
-/*template <typename T> void Array<T>::sortSelf(const std::function<bool(const T&, const T&)> sortFn) {
-    //std::sort(std::begin(array), std::end(array), sortFn);
-}
-
-template <typename T> Array<T> Array<T>::sort(const std::function<bool(const T&, const T&)> sortFn) const {
-    Array<T> out = copy();
-    //std::sort(out[0], out[length - 1], sortFn);
-
-    return out;
-}*/

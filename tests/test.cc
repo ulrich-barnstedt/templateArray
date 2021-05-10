@@ -13,6 +13,12 @@ TEST(Basic, SetterGetter) {
     EXPECT_EQ(testArray[5], 5);
 }
 
+TEST(Basic, SetterGetterFail) {
+    Array<int> testArray(1, true);
+
+    EXPECT_ANY_THROW(testArray[1]);
+}
+
 TEST(Basic, Equality) {
     Array<int> test(5);
     test[1] = 5;
@@ -128,28 +134,3 @@ TEST(Functions, Copy) {
     auto test = expected.copy();
     EXPECT_TRUE(test == expected);
 }
-
-//Functionality not implemented yet
-/*
- TEST(Functions, SortSelf) {
-    Array<int> expected(3);
-    expected.fill([&expected] (int idx) {return expected.length - idx;});
-
-    Array<int> generated(3);
-    generated.fill([] (int idx) {return idx + 1;});
-    generated.sortSelf([] (const int value, const int idx) {return -1;});
-
-    EXPECT_TRUE(generated == expected);
-}
-
-TEST(Functions, Sort) {
-    Array<int> expected(3);
-    expected.fill([&expected] (int idx) {return expected.length - idx;});
-
-    Array<int> source(3);
-    source.fill([] (int idx) {return idx + 1;});
-    auto sorted = source.sort([] (int value, int idx) {return -1;});
-
-    EXPECT_TRUE(expected == sorted);
-}
- */
