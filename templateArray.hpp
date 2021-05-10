@@ -24,16 +24,16 @@ public:
     T& operator[] (int index);
     bool operator== (const Array<T> &b) const;
 
-    void forEach(const std::function<void(T&, int)> fn) const;
-    void mapSelf(const std::function<T(T&, int)> mapFn);
-    Array<T> map(const std::function<T(T&, int)> mapFn) const;
-    template <typename F> F reduce(const std::function<const F(F, const T&, int)> fn, F accumulator) const;
-    bool some(const std::function<bool(const T&, int)> testFn) const;
-    bool every(const std::function<bool(const T&, int)> testFn) const;
+    void forEach(std::function<void(T&, int)> fn) const;
+    void mapSelf(std::function<T(T&, int)> mapFn);
+    Array<T> map(std::function<T(T&, int)> mapFn) const;
+    template <typename F> F reduce(std::function<const F(F, const T&, int)> fn, F init) const;
+    bool some(std::function<bool(const T&, int)> testFn) const;
+    bool every(std::function<bool(const T&, int)> testFn) const;
     bool includes(const T& element) const;
     int indexOf(const T& element) const;
-    void fill(const T& value);
-    void fill(const std::function<T(int)> fillFn);
+    void fill(T value);
+    void fill(std::function<T(int)> fillFn);
     Array<T> copy() const;
 };
 
@@ -149,7 +149,7 @@ template <typename T> int Array<T>::indexOf(const T& element) const {
     return -1;
 }
 
-template <typename T> void Array<T>::fill(const T& value) {
+template <typename T> void Array<T>::fill(const T value) {
     for (int i = 0; i < length; i++) {
         array[i] = value;
     }
