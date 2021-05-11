@@ -24,16 +24,16 @@ public:
     T& operator[] (int index);
     bool operator== (const Array<T> &b) const;
 
-    void forEach(std::function<void(T&, int)> fn) const;
-    void mapSelf(std::function<T(T&, int)> mapFn);
-    Array<T> map(std::function<T(T&, int)> mapFn) const;
-    template <typename F> F reduce(std::function<const F(F, const T&, int)> fn, F init) const;
-    bool some(std::function<bool(const T&, int)> testFn) const;
-    bool every(std::function<bool(const T&, int)> testFn) const;
+    void forEach(const std::function<void(T&, int)> &fn) const;
+    void mapSelf(const std::function<T(T&, int)> &mapFn);
+    Array<T> map(const std::function<T(T&, int)> &mapFn) const;
+    template <typename F> F reduce(const std::function<const F(F, const T&, int)> &fn, F init) const;
+    bool some(const std::function<bool(const T&, int)> &testFn) const;
+    bool every(const std::function<bool(const T&, int)> &testFn) const;
     bool includes(const T& element) const;
     int indexOf(const T& element) const;
     void fill(T value);
-    void fill(std::function<T(int)> fillFn);
+    void fill(const std::function<T(int)> &fillFn);
     Array<T> copy() const;
 };
 
@@ -83,19 +83,19 @@ template <typename T> bool Array<T>::operator==(const Array<T> &b) const {
 
 //------------ Methods
 
-template <typename T> void Array<T>::forEach(const std::function<void(T&, int)> fn) const {
+template <typename T> void Array<T>::forEach(const std::function<void(T&, int)> &fn) const {
     for (int i = 0; i < length; ++i) {
         fn(array[i], i);
     }
 }
 
-template <typename T> void Array<T>::mapSelf(const std::function<T(T&, int)> mapFn) {
+template <typename T> void Array<T>::mapSelf(const std::function<T(T&, int)> &mapFn) {
     for (int i = 0; i < length; ++i) {
         array[i] = mapFn(array[i], i);
     }
 }
 
-template <typename T> Array<T> Array<T>::map(const std::function<T(T&, int)> mapFn) const {
+template <typename T> Array<T> Array<T>::map(const std::function<T(T&, int)> &mapFn) const {
     Array<T> mapped(length);
 
     for (int i = 0; i < length; ++i) {
@@ -105,7 +105,7 @@ template <typename T> Array<T> Array<T>::map(const std::function<T(T&, int)> map
     return mapped;
 }
 
-template <typename T> template <typename F> F Array<T>::reduce(const std::function<const F(F, const T&, int)> fn, F init) const {
+template <typename T> template <typename F> F Array<T>::reduce(const std::function<const F(F, const T&, int)> &fn, F init) const {
     F accumulator = init;
 
     for (int i = 0; i < length; ++i) {
@@ -115,7 +115,7 @@ template <typename T> template <typename F> F Array<T>::reduce(const std::functi
     return accumulator;
 }
 
-template <typename T> bool Array<T>::some(const std::function<bool(const T&, int)> testFn) const {
+template <typename T> bool Array<T>::some(const std::function<bool(const T&, int)> &testFn) const {
     for (int i = 0; i < length; i++) {
         if (testFn(array[i], i)) return true;
     }
@@ -123,7 +123,7 @@ template <typename T> bool Array<T>::some(const std::function<bool(const T&, int
     return false;
 }
 
-template <typename T> bool Array<T>::every(const std::function<bool(const T&, int)> testFn) const {
+template <typename T> bool Array<T>::every(const std::function<bool(const T&, int)> &testFn) const {
     bool passed = true;
 
     for (int i = 0; i < length; i++) {
@@ -155,7 +155,7 @@ template <typename T> void Array<T>::fill(const T value) {
     }
 }
 
-template<typename T> void Array<T>::fill(const std::function<T(int)> fillFn) {
+template<typename T> void Array<T>::fill(const std::function<T(int)> &fillFn) {
     for (int i = 0; i < length; i++) {
         array[i] = fillFn(i);
     }
